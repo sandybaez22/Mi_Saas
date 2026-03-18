@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>N.I.X AI</title>
+
+<link rel="stylesheet" href="/static/style.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="layout">
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+<div class="logo">
+<h1>N.I.X</h1>
+<p>AI Assistant</p>
+</div>
+
+<button class="new-chat-btn" onclick="newChat()">+ Nuevo Chat</button>
+
+<h3>Historial</h3>
+
+<div id="history" class="history"></div>
+
+</div>
+
+
+<!-- MAIN -->
+
+<div class="main">
+
+<!-- TOPBAR -->
+
+<div class="topbar">
+
+
+</div>
+
+<div class="user-actions">
+
+<a href="/panel" class="panel-btn">Panel</a>
+
+<a href="/logout" class="logout-btn">Cerrar sesión</a>
+
+</div>
+
+</div>
+
+
+<!-- CHAT -->
+
+<div class="chat-area">
+
+<div id="chat" class="chat"></div>
+
+</div>
+
+
+<!-- INPUT -->
+
+<div class="input-area">
+
+<input
+type="text"
+id="topic"
+placeholder="Escribe tu mensaje..."
+onkeypress="if(event.key==='Enter'){sendPrompt()}"
+>
+
+<button onclick="sendPrompt()">Enviar</button>
+
+</div>
+
+</div>
+
+</div>
+
+<script src="/static/script.js"></script>
+
+</body>
+</html>

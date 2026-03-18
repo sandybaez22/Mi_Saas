@@ -1,0 +1,65 @@
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: linear-gradient(135deg, #0f172a, #020617);
+    color: white;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.panel-container {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 40px;
+    border-radius: 12px;
+    text-align: center;
+    width: 350px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+h1 {
+    margin-bottom: 10px;
+}
+
+.email-box {
+    margin-top: 10px;
+    margin-bottom: 25px;
+    padding: 10px;
+    background: #020617;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.chat-btn {
+    background: #2563eb;
+    padding: 10px;
+    border-radius: 6px;
+    text-decoration: none;
+    color: white;
+    transition: 0.3s;
+}
+
+.chat-btn:hover {
+    background: #1d4ed8;
+}
+
+.logout-btn {
+    background: #ef4444;
+    padding: 10px;
+    border-radius: 6px;
+    text-decoration: none;
+    color: white;
+    transition: 0.3s;
+}
+
+.logout-btn:hover {
+    background: #dc2626;
+}

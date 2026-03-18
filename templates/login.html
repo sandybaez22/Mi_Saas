@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Login | N.I.X</title>
+
+<link rel="stylesheet" href="/static/login.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>N.I.X</h1>
+
+<p>Inicia sesión para usar la IA</p>
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+
+<div class="alert">
+{{ messages[0] }}
+</div>
+
+{% endif %}
+{% endwith %}
+
+<form action="/login_user" method="POST">
+
+<input type="email" name="email" placeholder="Correo electrónico" required>
+
+<input type="password" name="password" placeholder="Contraseña" required>
+
+<button type="submit">Iniciar sesión</button>
+
+</form>
+
+<a href="/register">Crear cuenta</a>
+
+</div>
+
+</body>
+</html>
