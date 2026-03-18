@@ -9,7 +9,7 @@
 /* BODY */
 
 body {
-    background: #020617;
+    background: radial-gradient(circle at top, #0f172a, #020617);
     color: white;
     height: 100vh;
     overflow: hidden;
@@ -21,7 +21,6 @@ body {
 .layout {
     display: flex;
     height: 100vh;
-    width: 100%;
 }
 
 
@@ -29,7 +28,8 @@ body {
 
 .sidebar {
     width: 260px;
-    background: #020617;
+    background: rgba(15, 23, 42, 0.7);
+    backdrop-filter: blur(15px);
     border-right: 1px solid rgba(255, 255, 255, 0.05);
     padding: 20px;
     display: flex;
@@ -40,8 +40,10 @@ body {
 /* LOGO */
 
 .logo h1 {
-    font-size: 28px;
-    margin-bottom: 3px;
+    font-size: 30px;
+    background: linear-gradient(45deg, #3b82f6, #9333ea);
+    -webkit-background-clip: text;
+    color: transparent;
 }
 
 .logo p {
@@ -54,18 +56,18 @@ body {
 /* BOTÓN NUEVO CHAT */
 
 .new-chat-btn {
-    background: #2563eb;
+    background: linear-gradient(45deg, #2563eb, #7c3aed);
     border: none;
-    padding: 10px;
-    border-radius: 8px;
+    padding: 12px;
+    border-radius: 10px;
     color: white;
     cursor: pointer;
     margin-bottom: 15px;
-    transition: 0.2s;
+    transition: 0.3s;
 }
 
 .new-chat-btn:hover {
-    background: #1d4ed8;
+    transform: scale(1.05);
 }
 
 
@@ -74,11 +76,10 @@ body {
 .history {
     overflow-y: auto;
     flex: 1;
-    scroll-behavior: smooth;
 }
 
 .history-item {
-    background: #0f172a;
+    background: rgba(255, 255, 255, 0.05);
     padding: 10px;
     border-radius: 8px;
     margin-bottom: 8px;
@@ -88,7 +89,7 @@ body {
 }
 
 .history-item:hover {
-    background: #1e293b;
+    background: rgba(255, 255, 255, 0.1);
 }
 
 
@@ -105,10 +106,6 @@ body {
 
 .topbar {
     height: 60px;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    padding: 0 20px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
@@ -118,39 +115,27 @@ body {
 .user-actions {
     display: flex;
     justify-content: flex-end;
-    padding: 10px 20px;
+    padding: 15px;
+    gap: 10px;
 }
 
 
 /* BOTONES */
 
 .panel-btn {
-    background: #2563eb;
+    background: #3b82f6;
     padding: 8px 14px;
-    border-radius: 6px;
+    border-radius: 8px;
     text-decoration: none;
     color: white;
-    margin-right: 10px;
-    font-size: 14px;
-    transition: 0.2s;
-}
-
-.panel-btn:hover {
-    background: #1d4ed8;
 }
 
 .logout-btn {
     background: #ef4444;
     padding: 8px 14px;
-    border-radius: 6px;
+    border-radius: 8px;
     text-decoration: none;
     color: white;
-    font-size: 14px;
-    transition: 0.2s;
-}
-
-.logout-btn:hover {
-    background: #dc2626;
 }
 
 
@@ -160,36 +145,42 @@ body {
     flex: 1;
     padding: 30px;
     overflow-y: auto;
-    scroll-behavior: smooth;
 }
 
 
-/* CHAT CONTENEDOR */
+/* CHAT */
 
 .chat {
     display: flex;
     flex-direction: column;
+    gap: 12px;
 }
 
 
 /* MENSAJES */
 
 .message {
-    max-width: 700px;
+    max-width: 650px;
     padding: 14px;
-    border-radius: 10px;
-    margin-bottom: 12px;
+    border-radius: 12px;
     line-height: 1.6;
     animation: fadeIn 0.3s ease;
 }
 
+
+/* USER */
+
 .user {
-    background: #2563eb;
-    margin-left: auto;
+    background: linear-gradient(45deg, #2563eb, #4f46e5);
+    align-self: flex-end;
 }
 
+
+/* AI */
+
 .ai {
-    background: #1e293b;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
 }
 
 
@@ -205,26 +196,25 @@ body {
 input {
     flex: 1;
     padding: 14px;
+    border-radius: 12px;
     border: none;
-    border-radius: 8px;
-    background: #020617;
+    background: rgba(255, 255, 255, 0.05);
     color: white;
     outline: none;
-    font-size: 15px;
 }
 
 button {
-    background: #2563eb;
+    background: linear-gradient(45deg, #2563eb, #9333ea);
     border: none;
-    padding: 14px 22px;
-    border-radius: 8px;
+    padding: 14px 20px;
+    border-radius: 12px;
     color: white;
     cursor: pointer;
-    transition: 0.2s;
+    transition: 0.3s;
 }
 
 button:hover {
-    background: #1d4ed8;
+    transform: scale(1.05);
 }
 
 
@@ -250,7 +240,6 @@ button:hover {
 
 ::-webkit-scrollbar-thumb {
     background: #1e293b;
-    border-radius: 10px;
 }
 
 
