@@ -51,6 +51,24 @@ body {
 }
 
 
+/* BOTÓN NUEVO CHAT */
+
+.new-chat-btn {
+    background: #2563eb;
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    margin-bottom: 15px;
+    transition: 0.2s;
+}
+
+.new-chat-btn:hover {
+    background: #1d4ed8;
+}
+
+
 /* HISTORIAL */
 
 .history {
@@ -95,6 +113,15 @@ body {
 }
 
 
+/* USER ACTIONS */
+
+.user-actions {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 20px;
+}
+
+
 /* BOTONES */
 
 .panel-btn {
@@ -105,6 +132,11 @@ body {
     color: white;
     margin-right: 10px;
     font-size: 14px;
+    transition: 0.2s;
+}
+
+.panel-btn:hover {
+    background: #1d4ed8;
 }
 
 .logout-btn {
@@ -114,16 +146,29 @@ body {
     text-decoration: none;
     color: white;
     font-size: 14px;
+    transition: 0.2s;
+}
+
+.logout-btn:hover {
+    background: #dc2626;
 }
 
 
-/* CHAT */
+/* CHAT AREA */
 
 .chat-area {
     flex: 1;
     padding: 30px;
     overflow-y: auto;
     scroll-behavior: smooth;
+}
+
+
+/* CHAT CONTENEDOR */
+
+.chat {
+    display: flex;
+    flex-direction: column;
 }
 
 
@@ -175,6 +220,7 @@ button {
     border-radius: 8px;
     color: white;
     cursor: pointer;
+    transition: 0.2s;
 }
 
 button:hover {
@@ -182,7 +228,7 @@ button:hover {
 }
 
 
-/* ANIMACION */
+/* ANIMACIÓN */
 
 @keyframes fadeIn {
     from {
@@ -214,8 +260,4 @@ button:hover {
     .sidebar {
         display: none;
     }
-}
-
-body {
-    background: red !important;
 }
