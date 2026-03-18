@@ -33,13 +33,19 @@
     <!-- MAIN -->
     <div class="main">
 
-        <!-- TOPBAR -->
-        <div class="topbar"></div>
+        <!-- 🔥 TOPBAR MEJORADO -->
+        <div class="topbar">
 
-        <!-- USER ACTIONS -->
-        <div class="user-actions">
-            <a href="/panel" class="panel-btn">Panel</a>
-            <a href="/logout" class="logout-btn">Cerrar sesión</a>
+            <div class="chat-title">
+                <img src="{{ url_for('static', filename='logo.png') }}" class="logo-img">
+                <h2>N.I.X Assistant</h2>
+            </div>
+
+            <div class="user-actions">
+                <a href="/panel" class="panel-btn">Panel</a>
+                <a href="/logout" class="logout-btn">Cerrar sesión</a>
+            </div>
+
         </div>
 
         <!-- CHAT -->
