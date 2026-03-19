@@ -1,72 +1,88 @@
 let currentChat = null
+let isLoading = false
+
+// ============================
+// SIDEBAR MÓVIL
+// ============================
+
+function initSidebar() {
+    const toggle = document.querySelector(".sidebar-toggle")
+    const sidebar = document.querySelector(".sidebar")
+    const overlay = document.querySelector(".sidebar-overlay")
+
+    if (!toggle || !sidebar || !overlay) return
+
+    toggle.addEventListener("click", () => {
+        sidebar.classList.toggle("open")
+        overlay.classList.toggle("active")
+    })
+
+    overlay.addEventListener("click", () => {
+        sidebar.classList.remove("open")
+        overlay.classList.remove("active")
+    })
+}
+
+function closeSidebar() {
+    const sidebar = document.querySelector(".sidebar")
+    const overlay = document.querySelector(".sidebar-overlay")
+
+    if (sidebar) sidebar.classList.remove("open")
+    if (overlay) overlay.classList.remove("active")
+}
+
 
 // ============================
 // ENVIAR MENSAJE
 // ============================
 
-function sendPrompt() {
+function sendMessage() {
+    if (isLoading) return
 
-    let topic = document.getElementById("topic").value
-    let chat = document.getElementById("chat")
+    const input = document.getElementById("topic")
+    const topic = input.value.trim()
+    const chat = document.getElementById("chat")
 
-    if (topic === "") return
+    if (!topic) return
 
-    // mensaje usuario
+    isLoading = true
+    input.value = ""
+    input.focus()
 
-    let userMessage = document.createElement("div")
-    userMessage.className = "message user"
-    userMessage.innerText = topic
-
-    chat.appendChild(userMessage)
-
-    // loader
-
-    let loading = document.createElement("div")
-    loading.className = "message ai loading"
-    loading.innerText = "🤖 Pensando..."
-
-    chat.appendChild(loading)
-
+    // Mensaje usuario
+    appendMessage(chat, topic, "user")
     chat.scrollTop = chat.scrollHeight
 
+    // Loader
+    const loading = document.createElement("div")
+    loading.className = "message ai loading"
+    loading.innerHTML = `<span class="dots">Pensando<span>.</span><span>.</span><span>.</span></span>`
+    chat.appendChild(loading)
+    chat.scrollTop = chat.scrollHeight
 
     fetch("/generate", {
-
-        method: "POST",
-
-        headers: {
-            "Content-Type": "application/json"
-        },
-
-        body: JSON.stringify({
-
-            topic: topic,
-            chat_id: currentChat
-
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ topic, chat_id: currentChat })
         })
-
-    })
-
-    .then(res => res.json())
-
-    .then(data => {
-
-        loading.remove()
-
-        let aiMessage = document.createElement("div")
-
-        aiMessage.className = "message ai"
-
-        aiMessage.innerText = data.result
-
-        chat.appendChild(aiMessage)
-
-        chat.scrollTop = chat.scrollHeight
-
-    })
-
-    document.getElementById("topic").value = ""
-
+        .then(res => {
+            if (!res.ok) throw new Error("Error del servidor")
+            return res.json()
+        })
+        .then(data => {
+            loading.remove()
+            appendMessage(chat, data.result, "ai")
+            chat.scrollTop = chat.scrollHeight
+            loadChats()
+        })
+        .catch(err => {
+            loading.remove()
+            appendMessage(chat, "⚠️ Ocurrió un error. Intenta de nuevo.", "ai error")
+            console.error(err)
+        })
+        .finally(() => {
+            isLoading = false
+        })
 }
 
 
@@ -75,21 +91,15 @@ function sendPrompt() {
 // ============================
 
 function newChat() {
-
     fetch("/new_chat")
-
-    .then(res => res.json())
-
-    .then(data => {
-
-        currentChat = data.chat_id
-
-        document.getElementById("chat").innerHTML = ""
-
-        loadChats()
-
-    })
-
+        .then(res => res.json())
+        .then(data => {
+            currentChat = data.chat_id
+            document.getElementById("chat").innerHTML = ""
+            loadChats()
+            closeSidebar()
+        })
+        .catch(err => console.error("Error al crear chat:", err))
 }
 
 
@@ -98,37 +108,27 @@ function newChat() {
 // ============================
 
 function loadChats() {
-
     fetch("/get_chats")
+        .then(res => res.json())
+        .then(data => {
+            const history = document.getElementById("history")
+            history.innerHTML = ""
 
-    .then(res => res.json())
-
-    .then(data => {
-
-        let history = document.getElementById("history")
-
-        history.innerHTML = ""
-
-        data.forEach(chat => {
-
-            let div = document.createElement("div")
-
-            div.className = "history-item"
-
-            div.innerText = chat.title
-
-            div.onclick = function() {
-
-                openChat(chat.id)
-
+            if (data.length === 0) {
+                history.innerHTML = `<p style="font-size:12px;opacity:0.4;text-align:center;margin-top:10px;">Sin chats aún</p>`
+                return
             }
 
-            history.appendChild(div)
-
+            data.forEach(chat => {
+                const div = document.createElement("div")
+                div.className = "history-item"
+                if (chat.id === currentChat) div.classList.add("active")
+                div.innerText = chat.title || "Chat sin título"
+                div.onclick = () => openChat(chat.id)
+                history.appendChild(div)
+            })
         })
-
-    })
-
+        .catch(err => console.error("Error al cargar chats:", err))
 }
 
 
@@ -137,43 +137,53 @@ function loadChats() {
 // ============================
 
 function openChat(chatId) {
-
     currentChat = chatId
 
     fetch("/get_messages/" + chatId)
+        .then(res => res.json())
+        .then(data => {
+            const chat = document.getElementById("chat")
+            chat.innerHTML = ""
 
-    .then(res => res.json())
+            data.forEach(msg => {
+                appendMessage(chat, msg.content, msg.role === "user" ? "user" : "ai")
+            })
 
-    .then(data => {
-
-        let chat = document.getElementById("chat")
-
-        chat.innerHTML = ""
-
-        data.forEach(msg => {
-
-            let div = document.createElement("div")
-
-            if (msg.role === "user") {
-
-                div.className = "message user"
-
-            } else {
-
-                div.className = "message ai"
-
-            }
-
-            div.innerText = msg.content
-
-            chat.appendChild(div)
-
+            chat.scrollTop = chat.scrollHeight
+            loadChats()
+            closeSidebar()
         })
+        .catch(err => console.error("Error al abrir chat:", err))
+}
 
-        chat.scrollTop = chat.scrollHeight
 
+// ============================
+// HELPER: CREAR MENSAJE
+// ============================
+
+function appendMessage(container, text, type) {
+    const div = document.createElement("div")
+    div.className = `message ${type}`
+    div.innerText = text
+    container.appendChild(div)
+    return div
+}
+
+
+// ============================
+// ENTER PARA ENVIAR
+// ============================
+
+function initInputListener() {
+    const input = document.getElementById("topic")
+    if (!input) return
+
+    input.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault()
+            sendMessage()
+        }
     })
-
 }
 
 
@@ -182,9 +192,8 @@ function openChat(chatId) {
 // ============================
 
 window.onload = function() {
-
+    initSidebar()
+    initInputListener()
     loadChats()
-
     newChat()
-
 }
