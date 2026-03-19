@@ -21,10 +21,13 @@ body {
 .layout {
     display: flex;
     height: 100vh;
+    position: relative;
 }
 
 
-/* SIDEBAR */
+/* ===========================
+   SIDEBAR
+   =========================== */
 
 .sidebar {
     width: 260px;
@@ -34,6 +37,45 @@ body {
     padding: 20px;
     display: flex;
     flex-direction: column;
+    transition: transform 0.3s ease, width 0.3s ease;
+    z-index: 100;
+}
+
+
+/* Botón para abrir/cerrar sidebar en móvil */
+
+.sidebar-toggle {
+    display: none;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 200;
+    background: linear-gradient(45deg, #2563eb, #7c3aed);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+
+/* Overlay oscuro detrás del sidebar en móvil */
+
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 90;
+}
+
+.sidebar-overlay.active {
+    display: block;
 }
 
 
@@ -64,6 +106,7 @@ body {
     cursor: pointer;
     margin-bottom: 15px;
     transition: 0.3s;
+    font-size: 14px;
 }
 
 .new-chat-btn:hover {
@@ -93,20 +136,65 @@ body {
 }
 
 
-/* MAIN */
+/* ===========================
+   MAIN
+   =========================== */
 
 .main {
     flex: 1;
     display: flex;
     flex-direction: column;
+    min-width: 0;
+    /* evita overflow en flex */
+    overflow: hidden;
 }
 
 
-/* TOPBAR */
+/* ===========================
+   TOPBAR
+   =========================== */
 
 .topbar {
-    height: 60px;
+    height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 25px;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(12px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    flex-shrink: 0;
+    gap: 10px;
+}
+
+
+/* LOGO + TITULO */
+
+.chat-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    min-width: 0;
+}
+
+.logo-img {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.chat-title h2 {
+    font-size: 18px;
+    font-weight: 600;
+    background: linear-gradient(45deg, #3b82f6, #9333ea);
+    -webkit-background-clip: text;
+    color: transparent;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 
@@ -114,13 +202,10 @@ body {
 
 .user-actions {
     display: flex;
-    justify-content: flex-end;
-    padding: 15px;
+    align-items: center;
     gap: 10px;
+    flex-shrink: 0;
 }
-
-
-/* BOTONES */
 
 .panel-btn {
     background: #3b82f6;
@@ -128,6 +213,13 @@ body {
     border-radius: 8px;
     text-decoration: none;
     color: white;
+    font-size: 14px;
+    white-space: nowrap;
+    transition: 0.2s;
+}
+
+.panel-btn:hover {
+    background: #2563eb;
 }
 
 .logout-btn {
@@ -136,24 +228,34 @@ body {
     border-radius: 8px;
     text-decoration: none;
     color: white;
+    font-size: 14px;
+    white-space: nowrap;
+    transition: 0.2s;
+}
+
+.logout-btn:hover {
+    background: #dc2626;
 }
 
 
-/* CHAT AREA */
+/* ===========================
+   CHAT AREA
+   =========================== */
 
 .chat-area {
     flex: 1;
     padding: 30px;
     overflow-y: auto;
+    overflow-x: hidden;
 }
-
-
-/* CHAT */
 
 .chat {
     display: flex;
     flex-direction: column;
     gap: 12px;
+    max-width: 800px;
+    margin: 0 auto;
+    width: 100%;
 }
 
 
@@ -165,32 +267,32 @@ body {
     border-radius: 12px;
     line-height: 1.6;
     animation: fadeIn 0.3s ease;
+    word-break: break-word;
 }
-
-
-/* USER */
 
 .user {
     background: linear-gradient(45deg, #2563eb, #4f46e5);
     align-self: flex-end;
 }
 
-
-/* AI */
-
 .ai {
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(10px);
+    align-self: flex-start;
 }
 
 
-/* INPUT */
+/* ===========================
+   INPUT AREA
+   =========================== */
 
 .input-area {
     display: flex;
-    padding: 20px;
+    padding: 16px 20px;
     gap: 10px;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
+    flex-shrink: 0;
+    background: rgba(15, 23, 42, 0.4);
 }
 
 input {
@@ -201,6 +303,12 @@ input {
     background: rgba(255, 255, 255, 0.05);
     color: white;
     outline: none;
+    font-size: 15px;
+    min-width: 0;
+}
+
+input::placeholder {
+    color: rgba(255, 255, 255, 0.35);
 }
 
 button {
@@ -211,6 +319,8 @@ button {
     color: white;
     cursor: pointer;
     transition: 0.3s;
+    font-size: 15px;
+    flex-shrink: 0;
 }
 
 button:hover {
@@ -218,7 +328,9 @@ button:hover {
 }
 
 
-/* ANIMACIÓN */
+/* ===========================
+   ANIMACIÓN
+   =========================== */
 
 @keyframes fadeIn {
     from {
@@ -232,7 +344,9 @@ button:hover {
 }
 
 
-/* SCROLL */
+/* ===========================
+   SCROLL
+   =========================== */
 
 ::-webkit-scrollbar {
     width: 6px;
@@ -240,54 +354,178 @@ button:hover {
 
 ::-webkit-scrollbar-thumb {
     background: #1e293b;
+    border-radius: 3px;
 }
 
 
-/* RESPONSIVE */
+/* ===========================
+   TABLET (max 1024px)
+   =========================== */
 
-@media(max-width:768px) {
+@media (max-width: 1024px) {
     .sidebar {
-        display: none;
+        width: 220px;
+    }
+    .chat-area {
+        padding: 20px;
+    }
+    .message {
+        max-width: 100%;
+    }
+    .panel-btn,
+    .logout-btn {
+        padding: 7px 10px;
+        font-size: 13px;
     }
 }
 
 
-/* TOPBAR PRO */
+/* ===========================
+   MÓVIL GRANDE (max 768px)
+   =========================== */
 
-.topbar {
-    height: 70px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 25px;
-    background: rgba(15, 23, 42, 0.6);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+@media (max-width: 768px) {
+    body {
+        overflow: hidden;
+    }
+    /* Mostrar botón toggle */
+    .sidebar-toggle {
+        display: flex;
+    }
+    /* Sidebar oculto por defecto, desliza desde la izquierda */
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 240px;
+        transform: translateX(-100%);
+        z-index: 150;
+    }
+    .sidebar.open {
+        transform: translateX(0);
+    }
+    /* Topbar ajustado para dejar espacio al toggle */
+    .topbar {
+        padding: 0 15px 0 65px;
+        height: 60px;
+    }
+    .logo-img {
+        width: 34px;
+        height: 34px;
+    }
+    .chat-title h2 {
+        font-size: 15px;
+    }
+    .panel-btn,
+    .logout-btn {
+        padding: 6px 10px;
+        font-size: 12px;
+        border-radius: 6px;
+    }
+    .chat-area {
+        padding: 16px 14px;
+    }
+    .message {
+        max-width: 90%;
+        padding: 12px;
+        font-size: 14px;
+    }
+    .input-area {
+        padding: 12px 14px;
+        gap: 8px;
+    }
+    input {
+        padding: 12px;
+        font-size: 14px;
+    }
+    button {
+        padding: 12px 16px;
+        font-size: 14px;
+    }
 }
 
 
-/* LOGO + TITULO */
+/* ===========================
+   MÓVIL PEQUEÑO (max 480px)
+   =========================== */
 
-.chat-title {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+@media (max-width: 480px) {
+    .sidebar {
+        width: 85vw;
+        max-width: 300px;
+    }
+    .topbar {
+        height: 54px;
+        padding: 0 10px 0 58px;
+        gap: 6px;
+    }
+    .chat-title h2 {
+        font-size: 13px;
+    }
+    /* En pantallas muy pequeñas, ocultar texto de botones y mostrar solo iconos */
+    .panel-btn span,
+    .logout-btn span {
+        display: none;
+    }
+    .panel-btn,
+    .logout-btn {
+        padding: 6px 8px;
+        font-size: 13px;
+        border-radius: 6px;
+    }
+    .chat-area {
+        padding: 12px 10px;
+    }
+    .message {
+        max-width: 95%;
+        padding: 10px 12px;
+        font-size: 13px;
+        border-radius: 10px;
+    }
+    .input-area {
+        padding: 10px;
+        gap: 6px;
+    }
+    input {
+        padding: 10px 12px;
+        font-size: 13px;
+        border-radius: 10px;
+    }
+    button {
+        padding: 10px 13px;
+        font-size: 13px;
+        border-radius: 10px;
+    }
+    .new-chat-btn {
+        padding: 10px;
+        font-size: 13px;
+    }
+    .logo h1 {
+        font-size: 24px;
+    }
 }
 
-.logo-img {
-    width: 42px;
-    height: 42px;
-    border-radius: 12px;
-    object-fit: cover;
-}
 
+/* ===========================
+   PANTALLAS MUY GRANDES (min 1440px)
+   =========================== */
 
-/* TEXTO */
-
-.chat-title h2 {
-    font-size: 18px;
-    font-weight: 600;
-    background: linear-gradient(45deg, #3b82f6, #9333ea);
-    -webkit-background-clip: text;
-    color: transparent;
+@media (min-width: 1440px) {
+    .sidebar {
+        width: 300px;
+    }
+    .chat {
+        max-width: 900px;
+    }
+    .message {
+        max-width: 720px;
+    }
+    .chat-area {
+        padding: 40px;
+    }
+    input,
+    button {
+        font-size: 16px;
+    }
 }
